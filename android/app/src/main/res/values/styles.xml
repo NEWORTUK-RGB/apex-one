@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.ApexOne" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">#03050f</item>
+        <item name="android:statusBarColor">#03050f</item>
+        <item name="android:navigationBarColor">#03050f</item>
+    </style>
+</resources>
