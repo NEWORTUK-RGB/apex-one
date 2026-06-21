@@ -1,0 +1,8 @@
+{
+  "name": "apex-one-fixed",
+  "version": "2.0.2",
+  "private": true,
+  "dependencies": {
+    "@netlify/blobs": "^8.2.0"
+  }
+}

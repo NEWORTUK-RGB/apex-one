@@ -1,0 +1,41 @@
+CHANGE BRANDING HERE
+====================
+
+Open this file:
+
+src\js\main.js
+
+At the very top of that file, look for this block:
+
+const BRAND={
+  name:'APEX ONE',
+  shortName:'A1',
+  title:'APEX ONE - Mobile Command Platform',
+  description:'APEX ONE - mobile enterprise command platform. CRM, warehouse, production, academy, workforce and compliance.',
+  lockedTitle:'APEX ONE Locked',
+  installTitle:'Install APEX ONE',
+  installSubtitle:'Add to your home screen - works offline',
+  colors:{
+    accent:'#00c8ff',
+    accentDark:'#006699',
+    accentMid:'#0099dd',
+    gold:'#d4a23c',
+    green:'#00e87a',
+    red:'#ff4757'
+  }
+};
+
+Examples:
+
+Business name:
+  name:'YOUR BUSINESS NAME'
+
+Logo initials:
+  shortName:'YB'
+
+Main blue color:
+  accent:'#00c8ff'
+
+After changing src\js\main.js, use the full folder for Netlify deployment.
+
+For the standalone double-click HTML, ask Codex to rebuild APEX_ONE_FIXED.html after your changes.

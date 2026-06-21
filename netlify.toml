@@ -1,0 +1,82 @@
+[build]
+  publish = "."
+  command = "python3 tools/version_sw.py"
+
+# ─── DEP-04: Staging branch deploy context ───────────────────────────────────
+[context.branch-deploy]
+  command = "python3 tools/version_sw.py"
+
+[context.deploy-preview]
+  command = "python3 tools/version_sw.py"
+
+# ─── Edge Functions ──────────────────────────────────────────────────────────
+[[edge_functions]]
+  path = "/api/copilot"
+  function = "copilot"
+
+# ─── Digital Asset Links — must not be rewritten to index.html ───────────────
+[[redirects]]
+  from = "/.well-known/assetlinks.json"
+  to = "/.well-known/assetlinks.json"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# ─── Global security headers ────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Clickjacking / framing protection
+    X-Frame-Options = "DENY"
+
+    # MIME-type sniffing prevention
+    X-Content-Type-Options = "nosniff"
+
+    # No referrer leakage
+    Referrer-Policy = "no-referrer"
+
+    # No search engines, no archives, no AI crawlers
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+
+    # Restrict browser features
+    Permissions-Policy = "geolocation=(), camera=(), microphone=(), payment=(), usb=(), bluetooth=(), serial=(), hid=(), ambient-light-sensor=(), accelerometer=(), gyroscope=(), magnetometer=()"
+
+    # HTTP Strict Transport Security — force HTTPS for 2 years, include subdomains
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+    # Content Security Policy — PWA-aware: allows manifest, service worker, local icons
+    Content-Security-Policy = "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.anthropic.com; font-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+
+    # Block cross-origin info leakage
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+
+# ─── HTML — never cache so app updates land immediately ─────────────────────
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, must-revalidate, private"
+
+# ─── Service worker — must revalidate on every load ─────────────────────────
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+    Content-Type = "application/javascript; charset=utf-8"
+
+# ─── Manifest ────────────────────────────────────────────────────────────────
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+# ─── Icons — cache for a week ────────────────────────────────────────────────
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

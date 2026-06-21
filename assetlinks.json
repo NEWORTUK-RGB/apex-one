@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.apexone.platform",
+    "sha256_cert_fingerprints": [
+      "C2:3D:0A:2E:59:24:02:86:2D:D8:E9:2B:97:80:27:CB:16:94:62:45:8D:97:EB:F1:DA:7B:40:F9:9C:EE:A7:55"
+    ]
+  }
+}]
