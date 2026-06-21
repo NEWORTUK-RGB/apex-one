@@ -632,13 +632,9 @@ function load(){
 }
 function $(id){return document.getElementById(id);}
 function applyBranding(){
-  var dark=BRAND.colors.dark,light=BRAND.colors.light,c=BRAND.colors;
+  var c=BRAND.colors;
   var root=document.documentElement;
   function set(k,v){if(v)root.style.setProperty(k,v);}
-  set('--bg',dark.bg);set('--panel',dark.panel);set('--card',dark.card);set('--raised',dark.raised);
-  set('--border',dark.border);set('--border2',dark.border2);set('--text',dark.text);set('--muted',dark.muted);set('--dim',dark.dim);
-  set('--light-bg',light.bg);set('--light-panel',light.panel);set('--light-card',light.card);set('--light-raised',light.raised);
-  set('--light-border',light.border);set('--light-border2',light.border2);set('--light-text',light.text);set('--light-muted',light.muted);set('--light-dim',light.dim);
   set('--cyan',c.accent);set('--cyan2',c.accentMid);set('--cyan3',c.accentDark);
   set('--gold',c.gold);set('--gold2',c.goldLight);set('--orange',c.orange);set('--green',c.green);
   set('--purple',c.purple);set('--amber',c.amber);set('--red',c.red);set('--blue',c.blue);
@@ -2601,10 +2597,23 @@ setInterval(function(){
   $('barClock').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
 },60000);
 function applyTheme(){
-  document.documentElement.setAttribute('data-theme',state.settings.dark?'dark':'light');
-  $('themeBtn').innerHTML=icon(state.settings.dark?'moon':'sun');
+  var isDark=state.settings.dark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  $('themeBtn').innerHTML=icon(isDark?'moon':'sun');
   var mt=document.querySelector('meta[name="theme-color"]');
-  if(mt)mt.setAttribute('content',state.settings.dark?'#03050f':'#eef2fb');
+  if(mt)mt.setAttribute('content',isDark?'#03050f':'#eef2fb');
+  var colors=isDark?BRAND.colors.dark:BRAND.colors.light;
+  var root=document.documentElement;
+  root.style.setProperty('--bg',colors.bg);
+  root.style.setProperty('--panel',colors.panel);
+  root.style.setProperty('--card',colors.card);
+  root.style.setProperty('--raised',colors.raised);
+  root.style.setProperty('--border',colors.border);
+  root.style.setProperty('--border2',colors.border2);
+  root.style.setProperty('--text',colors.text);
+  root.style.setProperty('--muted',colors.muted);
+  root.style.setProperty('--dim',colors.dim);
+  root.style.setProperty('--shadow',isDark?'0 8px 32px rgba(0,0,0,.55)':'0 8px 24px rgba(30,50,100,.12)');
 }
 
 /* ════ PWA: INSTALL + OFFLINE + SW ════ */
