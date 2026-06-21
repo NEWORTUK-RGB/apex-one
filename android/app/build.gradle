@@ -1,0 +1,63 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.apexone.platform'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.apexone.platform"
+        minSdk 19
+        targetSdk 34
+        versionCode 1
+        versionName "2.0.2"
+
+        manifestPlaceholders = [
+            hostName: "apex-one.netlify.app",
+            defaultUrl: "https://apex-one.netlify.app/?source=pwa",
+            launcherName: "APEX ONE",
+            assetStatements: '[{"relation": ["delegate_permission/common.handle_all_urls"], ' +
+                '"target": {"namespace": "web", "site": "https://apex-one.netlify.app"}}]'
+        ]
+    }
+
+    signingConfigs {
+        release {
+            def ksFile = file("keystore.jks")
+            if (ksFile.exists()) {
+                storeFile ksFile
+                storePassword System.getenv("KEYSTORE_PASSWORD") ?: ""
+                keyAlias System.getenv("KEY_ALIAS") ?: "apex-one"
+                keyPassword System.getenv("KEY_PASSWORD") ?: ""
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+            def ksFile = file("keystore.jks")
+            if (ksFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    bundle {
+        language { enableSplit = false }
+        density { enableSplit = true }
+        abi { enableSplit = true }
+    }
+}
+
+dependencies {
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.5.0'
+    implementation 'androidx.browser:browser:1.8.0'
+}
